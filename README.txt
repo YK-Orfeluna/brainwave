@@ -6,12 +6,18 @@ This system is developed by Python 2.7.12 & Numpy1.1.2 & Opencv 2.4.13 & thinkge
 
 ~brainwave.py~
 Env.
+MacOS10.10.5
+MindWaveManeger
+MindWaveDriver
+ThinkGearConnector
+
 Python2.7.12
 Numpy1.1.2
 Pyserial3.1.1
 Thinkgear0.2
 
-Use
+
+Run
 $python brainwave.py
 
 ~brain_graph.py~
@@ -20,7 +26,7 @@ Python2.7.12
 Numpy1.1.2
 Matplotlib1.5.3
 
-Use
+Run
 $python brain_graph.py XXXXXXXX
 "XXXXXXXX" = "XXXXXXXX.csv"
 ※It is filename of csv you want to read & visualize
