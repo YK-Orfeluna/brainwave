@@ -31,3 +31,7 @@ $python brain_graph.py XXXXXXXX
 "XXXXXXXX" = "XXXXXXXX.csv"
 ※It is filename of csv you want to read & visualize
 If you want to test: $python brain_graph.py
+
+
+log
+16/10/20: ver.1.0
