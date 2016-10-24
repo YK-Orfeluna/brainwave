@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # XXXXXXXXXの部分が日付
 args = sys.argv
 if len(args) == 1 :
-	csv = "test/brainwave_20161015162019.csv"
+	csv = "test/brainwave_20161024191152.csv"
 else :
 	csv = "brainwave_" + args[1] + ".csv"
 data = np.genfromtxt(csv, delimiter=",")
@@ -29,13 +29,11 @@ plt.figure()
 # marker引数で，マーカーを指定可能．Flaseで解除可能．
 # linewidth引数で，線の太さを指定可能
 for i, c in enumerate(color) :
-	plt.plot(x, data[:, i+3], label=label[i], linewidth=2, marker="o", color=c)
-
-plt.xlabel("sec.")
-#plt.ylim(0, 50000)			# グラフのy軸の描画範囲を決定する(min, max)．コメントアウトで範囲自動決定
-plt.title(csv)
-plt.legend(loc=2)			# 凡例の表示と場所(loc）を設定する
-
+	plt.subplot(8, 1, i+1)
+	plt.plot(x, data[:, i+4], label=label[i], linewidth=2, marker="o", color=c)
+	plt.title(csv + "_" + label[i])
+	plt.xlabel("sec.")
+	#plt.ylim(0, 50000)			# グラフのy軸の描画範囲を決定する(min, max)．コメントアウトで範囲自動決定
 plt.show()
 sys.exit()
 

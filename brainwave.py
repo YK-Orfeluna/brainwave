@@ -39,15 +39,14 @@ class Mind() :
 
 	def nowtime(self) :
 		t = time.localtime()
-		y = str(t.tm_year)
-		month = self.make_zero(t.tm_mon)
-		d = self.make_zero(t.tm_mday)
-		h = self.make_zero(t.tm_hour)
-		m = self.make_zero(t.tm_min)
-		s = self.make_zero(t.tm_sec)
-		print y, h, m, s
-		r = y + h + m + s
-		return int(r)
+		stamp = [t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec]
+		out = ""
+		for i in stamp :
+			s = str(i)
+			if i < 10 :
+				s.zfill(2)
+			out += s
+		return s
 
 	def brainwave(self, p) :
 		str_1 = "ASIC EEG Power: EEGPowerData("
@@ -69,6 +68,7 @@ class Mind() :
 		out = np.array([result], dtype=np.float64)
 		print(out)
 		return out
+
 	def csv(self) :							# CSV形式で保存
 		file = str(self.nowtime())
 		np.savetxt("brainwave_" + file + ".csv", self.brain[1:], delimiter=",")
