@@ -35,3 +35,5 @@ If you want to test: $python brain_graph.py
 
 log
 16/10/20: ver.1.0
+16/10/24: ver.1.1
+	bag fix
