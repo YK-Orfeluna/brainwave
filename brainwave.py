@@ -14,14 +14,15 @@ import cv2
 
 class Mind() :
 	def __init__(self) :
-		self.img = np.zeros([500, 500, 1])
+		self.img1 = np.zeros([500, 500, 1])
 		self.windowname = "MindWave"
-		self.brain = np.zeros([1, 11],dtype=np.float64)
+		self.brain = np.zeros([1, 12],dtype=np.float64)
 
 	def make_image(self) :
 		cv2.putText(self.img, self.windowname, (150, 100), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		cv2.putText(self.img, "Push 'Enter': Flag ON / OFF", (10, 200), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		cv2.putText(self.img, "Push 'esc': Save CSV & Exit", (10, 300), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		self.img2 = self.img.copy()
 
 	def set(self) :
 		PORT = '/dev/tty.MindWaveMobile-DevA'	# portを$ls /dev/tty.*で確認しておく
@@ -56,22 +57,24 @@ class Mind() :
 		name = np.array(["delta=", "theta=", "lowalpha=", "highalpha=", "lowbeta=", "highbeta=", "lowgamma=", "midgamma="])
 
 		p = str(p)							# pをstrに変換
-		p = p.lstrip(self.str_1)			# pから余分な文字を取り除く
-		p = p.rstrip(self.str_2)
-		p = p.split(self.str_3)				# pを", "で区切ってlist形式に
+		p = p.lstrip(str_1)			# pから余分な文字を取り除く
+		p = p.rstrip(str_2)
+		p = p.split(str_3)				# pを", "で区切ってlist形式に
 
 		self.time_brain = time.time()
-		result = [self.flag, self.nowtime(), self.time.time(), self.time_brain - self.start]
+		result = [self.flag, self.nowtime(), time.time(), self.time_brain - self.start]
 		for x, i in enumerate(p) :
-			out = i.lstrip(self.name[x])
+			out = i.lstrip(name[x])
 			result.append(out)
-		print(result)
-		return np.array([result], dtype=np.float64)
+	
+		out = np.array([result], dtype=np.float64)
+		print(out)
+		return out
 
 	def csv(self) :							# CSV形式で保存
 		file = str(self.nowtime())
 		np.savetxt("brainwave_" + file + ".csv", self.brain[1:], delimiter=",")
-		print("Flag, Second, TimeStamp, TimePassed, Delta, Theta, Low_Alfa, High_Alfa, Low_Beta, High_Beta, Low_Gamma, Mid_Gamma")
+		print("Flag, TimeStamp, Unixtime, TimePassed, Delta, Theta, Low_Alfa, High_Alfa, Low_Beta, High_Beta, Low_Gamma, Mid_Gamma")
 
 	def finish(self) :						# 終了処理
 		cv2.destroyAllWindows()
@@ -80,7 +83,7 @@ class Mind() :
 		sys.exit()
 
 	def main(self) :
-		flag = -1
+		self.flag = -1
 		self.set()
 
 		for packets in self.think:
@@ -106,8 +109,8 @@ class Mind() :
 					self.csv()
 					self.finish()
 				elif key == 13 :										# push "enter/return"
-					flag *= -1
-					print("Change Flag to %d" %flag)
+					self.flag *= -1
+					print("Change Flag to %d" %self.flag)
 
 	
 if __name__ == "__main__" :
