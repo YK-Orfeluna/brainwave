@@ -7,6 +7,8 @@ This system is developed by Python 2.7.12 & Numpy1.1.2 & Opencv 2.4.13 & thinkge
 (c) 2016 Yuki Kitagishi
 """
 
+#動作チェックをする
+
 import time, sys
 import thinkgear		# Pyserialが必要
 import numpy as np
