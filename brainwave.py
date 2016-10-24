@@ -7,6 +7,8 @@ This system is developed by Python 2.7.12 & Numpy1.1.2 & Opencv 2.4.13 & thinkge
 (c) 2016 Yuki Kitagishi
 """
 
+#動作チェックをする
+
 import time, sys
 import thinkgear		# Pyserialが必要
 import numpy as np
@@ -14,14 +16,17 @@ import cv2
 
 class Mind() :
 	def __init__(self) :
-		self.img = np.zeros([500, 500, 1])
+		self.img1 = np.zeros([500, 500, 1])
 		self.windowname = "MindWave"
 		self.brain = np.zeros([1, 12],dtype=np.float64)
 
 	def make_image(self) :
-		cv2.putText(self.img, self.windowname, (150, 100), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
-		cv2.putText(self.img, "Push 'Enter': Flag ON / OFF", (10, 200), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
-		cv2.putText(self.img, "Push 'esc': Save CSV & Exit", (10, 300), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		cv2.putText(self.img1, self.windowname, (150, 100), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		cv2.putText(self.img1, "Push 'Enter': Flag ON / OFF", (10, 200), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		cv2.putText(self.img1, "Push 'esc': Save CSV & Exit", (10, 300), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		self.img2 = self.img1.copy()
+		cv2.putText(self.img1, "flag: -1", (10, 400), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		cv2.putText(self.img2, "flag: 1", (10, 400), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 
 	def set(self) :
 		PORT = '/dev/tty.MindWaveMobile-DevA'	# portを$ls /dev/tty.*で確認しておく
@@ -98,9 +103,10 @@ class Mind() :
 				#	continue
 
 				self.brain = np.append(self.brain, self.brainwave(p), axis=0)
-
-				cv2.imshow(self.windowname, self.img)
-
+				if flag == -1 :
+					cv2.imshow(self.windowname, self.img1)
+				else :
+					cv2.imshow(self.windowname, self.img2)
 				fps = int((1 - (time.time() - self.time_brain)) * 1000) - 100
 				key = cv2.waitKey(fps)
 				if key == 27 :											# push "esc"
