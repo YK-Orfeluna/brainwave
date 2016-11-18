@@ -7,21 +7,30 @@ This system is developed by Python 2.7.12 & Numpy1.1.2 & Opencv 2.4.13 & thinkge
 (c) 2016 Yuki Kitagishi
 """
 
-#動作チェックをする
-
 import time, sys
 import thinkgear		# Pyserialが必要
 import numpy as np
 import cv2
 
+import key_num as key
+
+windowname = "MindWave"
+port = '/dev/tty.MindWaveMobile-DevA'	# portを$ls /dev/tty.*で確認しておく
+
+str_1 = "ASIC EEG Power: EEGPowerData("
+str_2 = ")"
+str_3 = ", "
+name = np.array(["delta=", "theta=", "lowalpha=", "highalpha=", "lowbeta=", "highbeta=", "lowgamma=", "midgamma="])
+
+
 class Mind() :
 	def __init__(self) :
 		self.img1 = np.zeros([500, 500, 1])
-		self.windowname = "MindWave"
 		self.brain = np.zeros([1, 12],dtype=np.float64)
+		self.flag = -1
 
 	def make_image(self) :
-		cv2.putText(self.img1, self.windowname, (150, 100), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		cv2.putText(self.img1, windowname, (150, 100), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		cv2.putText(self.img1, "Push 'Enter': Flag ON / OFF", (10, 200), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		cv2.putText(self.img1, "Push 'esc': Save CSV & Exit", (10, 300), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		self.img2 = self.img1.copy()
@@ -29,8 +38,7 @@ class Mind() :
 		cv2.putText(self.img2, "flag: 1", (10, 400), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 
 	def set(self) :
-		PORT = '/dev/tty.MindWaveMobile-DevA'	# portを$ls /dev/tty.*で確認しておく
-		self.th = thinkgear.ThinkGearProtocol(PORT)
+		self.th = thinkgear.ThinkGearProtocol(port)
 		self.think = self.th.get_packets()
 		print self.think
 		self.make_image()
@@ -54,15 +62,10 @@ class Mind() :
 		return s
 
 	def brainwave(self, p) :
-		str_1 = "ASIC EEG Power: EEGPowerData("
-		str_2 = ")"
-		str_3 = ", "
-		name = np.array(["delta=", "theta=", "lowalpha=", "highalpha=", "lowbeta=", "highbeta=", "lowgamma=", "midgamma="])
-
-		p = str(p)							# pをstrに変換
+		p = str(p)					# pをstrに変換
 		p = p.lstrip(str_1)			# pから余分な文字を取り除く
 		p = p.rstrip(str_2)
-		p = p.split(str_3)				# pを", "で区切ってlist形式に
+		p = p.split(str_3)			# pを", "で区切ってlist形式に
 
 		self.time_brain = time.time()
 		result = [self.flag, self.nowtime(), time.time(), self.time_brain - self.start]
@@ -86,7 +89,6 @@ class Mind() :
 		sys.exit()
 
 	def main(self) :
-		self.flag = -1
 		self.set()
 
 		for packets in self.think:
@@ -103,16 +105,18 @@ class Mind() :
 				#	continue
 
 				self.brain = np.append(self.brain, self.brainwave(p), axis=0)
-				if flag == -1 :
-					cv2.imshow(self.windowname, self.img1)
+				if self.flag == -1 :
+					cv2.imshow(windowname, self.img1)
 				else :
-					cv2.imshow(self.windowname, self.img2)
+					cv2.imshow(windowname, self.img2)
+
 				fps = int((1 - (time.time() - self.time_brain)) * 1000) - 100
-				key = cv2.waitKey(fps)
-				if key == 27 :											# push "esc"
+				
+				KEY = cv2.waitKey(fps)
+				if KEY == key.esc :
 					self.csv()
 					self.finish()
-				elif key == 13 :										# push "enter/return"
+				elif KEY == key.enter :
 					self.flag *= -1
 					print("Change Flag to %d" %self.flag)
 
