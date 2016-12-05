@@ -31,8 +31,8 @@ $python brain_graph.py filename
 3. ターミナルで「ls /dev/tty.*」と入力して，デバイスを確認する．  
 "/dev/tty.MindWaveMobile-DevA"とか出てくるはずなので，brainwave.pyの18行目のportの中身がこれになっているか確認する
 4. ターミナルやSublimeText3からコードを実行する
-* enterでフラグ切り替え（録音開始・停止のタイミングとかで使用可能）
-* escで終了して，計測した脳波をcsv形式で書き出して保存する
+** enterでフラグ切り替え（録音開始・停止のタイミングとかで使用可能）
+** escで終了して，計測した脳波をcsv形式で書き出して保存する
 5. 接続がうまくいかない場合，以下の方法を試す
 * 本体の再起動
 * PCのbluetoothの再起動（OFF→ON）
