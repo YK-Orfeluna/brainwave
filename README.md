@@ -23,3 +23,9 @@ asterisk without ".csv"
 ## log
 * 16/10/20: ver.1.0
 * 16/10/24: ver.1.1;bag fix
+
+## How to use
+1. 電源を入れる
+2. PCのbluetoothをONにする
+3. ターミナルで「ls ls /dev/tty.*」と入力して，デバイスを確認する．  
+"/dev/tty.MindWaveMobile-DevA"とか出てくるはずなので，brainwave.pyの18行目のportの中身がこれになっているか確認する
