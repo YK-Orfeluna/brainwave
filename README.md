@@ -18,7 +18,7 @@ $python brainwave.py
 ## brain_graph.py
 ### Run
 $python brain_graph.py filename  
-asterisk without ".csv"
+*without ".csv"
 
 ## log
 * 16/10/20: ver.1.0
@@ -34,6 +34,6 @@ asterisk without ".csv"
 * enterでフラグ切り替え（録音開始・停止のタイミングとかで使用可能）
 * escで終了して，計測した脳波をcsv形式で書き出して保存する
 5. 接続がうまくいかない場合，以下の方法を試す
-*本体の再起動
-*PCのbluetoothの再起動（OFF→ON）
-*Brainwave Visualizerを起動して，アプリと本体を一度接続して，うまくいったら接続解除（アプリ終了）してみる
+* 本体の再起動
+* PCのbluetoothの再起動（OFF→ON）
+* Brainwave Visualizerを起動して，アプリと本体を一度接続して，うまくいったら接続解除（アプリ終了）してみる
