@@ -14,13 +14,13 @@ import cv2
 
 import key_num as key
 
-windowname = "MindWave"
-port = '/dev/tty.MindWaveMobile-DevA'	# portを$ls /dev/tty.*で確認しておく
+WINDOWNAME = "MindWave"
+PORT = '/dev/tty.MindWaveMobile-DevA'	# PORTを$ls /dev/tty.*で確認しておく
 
-str_1 = "ASIC EEG Power: EEGPowerData("
-str_2 = ")"
-str_3 = ", "
-name = np.array(["delta=", "theta=", "lowalpha=", "highalpha=", "lowbeta=", "highbeta=", "lowgamma=", "midgamma="])
+STR_1 = "ASIC EEG Power: EEGPowerData("
+STR_2 = ")"
+STR_3 = ", "
+NAME = np.array(["delta=", "theta=", "lowalpha=", "highalpha=", "lowbeta=", "highbeta=", "lowgamma=", "midgamma="])
 
 
 class Mind() :
@@ -30,7 +30,7 @@ class Mind() :
 		self.flag = -1
 
 	def make_image(self) :
-		cv2.putText(self.img1, windowname, (150, 100), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
+		cv2.putText(self.img1, WINDOWNAME, (150, 100), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		cv2.putText(self.img1, "Push 'Enter': Flag ON / OFF", (10, 200), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		cv2.putText(self.img1, "Push 'esc': Save CSV & Exit", (10, 300), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 		self.img2 = self.img1.copy()
@@ -38,7 +38,7 @@ class Mind() :
 		cv2.putText(self.img2, "flag: 1", (10, 400), cv2.FONT_HERSHEY_PLAIN, 2, 255, 2, cv2.CV_AA)
 
 	def set(self) :
-		self.th = thinkgear.ThinkGearProtocol(port)
+		self.th = thinkgear.ThinkGearProtocol(PORT)
 		self.think = self.th.get_packets()
 		print self.think
 		self.make_image()
@@ -63,14 +63,14 @@ class Mind() :
 
 	def brainwave(self, p) :
 		p = str(p)					# pをstrに変換
-		p = p.lstrip(str_1)			# pから余分な文字を取り除く
-		p = p.rstrip(str_2)
-		p = p.split(str_3)			# pを", "で区切ってlist形式に
+		p = p.lstrip(STR_1)			# pから余分な文字を取り除く
+		p = p.rstrip(STR_2)
+		p = p.split(STR_3)			# pを", "で区切ってlist形式に
 
 		self.time_brain = time.time()
 		result = [self.flag, self.nowtime(), time.time(), self.time_brain - self.start]
 		for x, i in enumerate(p) :
-			out = i.lstrip(name[x])
+			out = i.lstrip(NAME[x])
 			result.append(out)
 	
 		out = np.array([result], dtype=np.float64)
@@ -106,9 +106,9 @@ class Mind() :
 
 				self.brain = np.append(self.brain, self.brainwave(p), axis=0)
 				if self.flag == -1 :
-					cv2.imshow(windowname, self.img1)
+					cv2.imshow(WINDOWNAME, self.img1)
 				else :
-					cv2.imshow(windowname, self.img2)
+					cv2.imshow(WINDOWNAME, self.img2)
 
 				fps = int((1 - (time.time() - self.time_brain)) * 1000) - 100
 				
