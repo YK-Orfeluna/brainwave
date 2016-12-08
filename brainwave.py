@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*
-"""
-=========================================================
-                    BrainWave                        
-=========================================================
-This system is developed by Python 2.7.12 & Numpy1.1.2 & Opencv 2.4.13 & thinkgear0.2.
-(c) 2016 Yuki Kitagishi
-"""
 
 import time, sys
 import thinkgear		# Pyserialが必要
@@ -26,7 +19,7 @@ NAME = np.array(["delta=", "theta=", "lowalpha=", "highalpha=", "lowbeta=", "hig
 class Mind() :
 	def __init__(self) :
 		self.img1 = np.zeros([500, 500, 1])
-		self.brain = np.zeros([1, 12],dtype=np.float64)
+		self.brain = np.zeros([1, 12],dtype=np.int64)
 		self.flag = -1
 
 	def make_image(self) :
@@ -57,9 +50,9 @@ class Mind() :
 		for i in stamp :
 			s = str(i)
 			if i < 10 :
-				s.zfill(2)
+				s = "0" + s
 			out += s
-		return s
+		return out
 
 	def brainwave(self, p) :
 		p = str(p)					# pをstrに変換
@@ -67,20 +60,22 @@ class Mind() :
 		p = p.rstrip(STR_2)
 		p = p.split(STR_3)			# pを", "で区切ってlist形式に
 
+		t = time.localtime()
+
 		self.time_brain = time.time()
-		result = [self.flag, self.nowtime(), time.time(), self.time_brain - self.start]
+		result = [self.flag, t.tm_hour, t,.tm_min, t.tm_sec, self.time_brain - self.start]
 		for x, i in enumerate(p) :
 			out = i.lstrip(NAME[x])
 			result.append(out)
 	
-		out = np.array([result], dtype=np.float64)
+		out = np.array([result], dtype=np.int64)
 		print(out)
 		return out
 
 	def csv(self) :							# CSV形式で保存
 		file = str(self.nowtime())
 		np.savetxt("brainwave_" + file + ".csv", self.brain[1:], delimiter=",")
-		print("Flag, TimeStamp, Unixtime, TimePassed, Delta, Theta, Low_Alfa, High_Alfa, Low_Beta, High_Beta, Low_Gamma, Mid_Gamma")
+		print("Flag, Hour, Minute, Second, TimePassed, Delta, Theta, Low_Alfa, High_Alfa, Low_Beta, High_Beta, Low_Gamma, Mid_Gamma")
 
 	def finish(self) :						# 終了処理
 		cv2.destroyAllWindows()
