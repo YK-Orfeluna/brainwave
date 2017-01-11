@@ -11,6 +11,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import Tkinter
 
 # コマンドライン引数で，csvファイルの日付部分を指定可能
 # $python brain_graph.py XXXXXXXXX
