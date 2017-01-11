@@ -22,6 +22,7 @@ else :
 	csv = "brainwave_" + args[1] + ".csv"
 #data = np.genfromtxt(csv, delimiter=",")
 df = pd.read_csv(csv, encoding="utf-8")
+data = df.values
 
 x = np.arange(len(data))
 label = ["Delta", "Theta", "Low_Alpha", "High_Alpha", "Low_Beta", "High_Beta", "Low_Gamma", "High_Gamma"]
