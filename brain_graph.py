@@ -10,6 +10,7 @@ This system is developed by Python 2.7.12 & Numpy1.1.2 & Matplotlib1.5.3.
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # コマンドライン引数で，csvファイルの日付部分を指定可能
 # $python brain_graph.py XXXXXXXXX
@@ -19,7 +20,8 @@ if len(args) == 1 :
 	csv = "test/brainwave_20161024191152.csv"
 else :
 	csv = "brainwave_" + args[1] + ".csv"
-data = np.genfromtxt(csv, delimiter=",")
+#data = np.genfromtxt(csv, delimiter=",")
+df = pd.read_csv(csv, encoding="utf-8")
 
 x = np.arange(len(data))
 label = ["Delta", "Theta", "Low_Alpha", "High_Alpha", "Low_Beta", "High_Beta", "Low_Gamma", "High_Gamma"]
