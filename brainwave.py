@@ -4,6 +4,7 @@ import time, sys
 import thinkgear		# Pyserialが必要
 import numpy as np
 import cv2
+import pandas as pd
 
 import key_num as key
 
@@ -73,9 +74,10 @@ class Mind() :
 		return out
 
 	def csv(self) :							# CSV形式で保存
-		file = str(self.nowtime())
-		np.savetxt("brainwave_" + file + ".csv", self.brain[1:], delimiter=",")
-		print("Flag, Hour, Minute, Second, TimePassed, Delta, Theta, Low_Alfa, High_Alfa, Low_Beta, High_Beta, Low_Gamma, Mid_Gamma")
+		v = self.brain[1:]
+		c = np.array(["Flag, Hour", "Minute", "Second", "TimePassed", "Delta", "Theta", "Low_Alfa", "High_Alfa", "Low_Beta", "High_Beta", "Low_Gamma", "Mid_Gamma"])
+		df = pd.DataFrame(v, columns=c)
+		df.to_csv("test.csv", index=False, encoding="utf-8")
 
 	def finish(self) :						# 終了処理
 		cv2.destroyAllWindows()
