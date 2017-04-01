@@ -64,7 +64,7 @@ class Mind() :
 		t = time.localtime()
 
 		self.time_brain = time.time()
-		result = [self.flag, t.tm_hour, t,.tm_min, t.tm_sec, self.time_brain - self.start]
+		result = [self.flag, t.tm_hour, t.tm_min, t.tm_sec, self.time_brain - self.start]
 		for x, i in enumerate(p) :
 			out = i.lstrip(NAME[x])
 			result.append(out)
