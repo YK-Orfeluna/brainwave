@@ -8,6 +8,9 @@ import pandas as pd
 
 import key_num as key
 
+if sys.version_info[0] != 2 :
+	exit("Sorry, this script supports only Python2.x")
+
 WINDOWNAME = "MindWave"
 PORT = '/dev/tty.MindWaveMobile-DevA'	# PORTを$ls /dev/tty.*で確認しておく
 
