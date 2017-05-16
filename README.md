@@ -7,6 +7,7 @@
 * ThinkGearConnector
 
 * Python 2.7.12 over
+	* Only Python2.x
 * NumPy 1.1.2 over
 * Pyserial 3.1.1 over
 * Thinkgear 0.2 over
