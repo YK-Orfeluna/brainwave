@@ -17,23 +17,9 @@ WINDOWNAME = "MindWave"
 STR_1 = "ASIC EEG Power: EEGPowerData("
 STR_2 = ")"
 STR_3 = ", "
+
 NAME = np.array(["delta=", "theta=", "lowalpha=", "highalpha=", "lowbeta=", "highbeta=", "lowgamma=", "midgamma="])
-#LABEL = np.array(["Flag, Hour", "Minute", "Second", "TimePassed", "Delta", "Theta", "Low_Alfa", "High_Alfa", "Low_Beta", "High_Beta", "Low_Gamma", "Mid_Gamma"])
 LABEL = np.array(["Unix", "TimeStamp", "Delta", "Theta", "Low_Alfa", "High_Alfa", "Low_Beta", "High_Beta", "Low_Gamma", "Mid_Gamma"])
-
-DEBUG = True
-#DEBUG = False
-
-ATTENTION = False
-MEDITATION = False
-
-if ATTENTION :
-	np.append(NAME, "attention=")
-	np.append(LABEL, "Attention")
-
-if MEDITATION :
-	np.append(NAME, "meditation=")
-	np.append(LABEL, "Meditation")
 
 def stamp() :
 	t = time.localtime()
@@ -47,7 +33,19 @@ def stamp() :
 	return out
 
 class Mind() :
-	def __init__(self, port) :
+	def __init__(self, port, debug=True, attention=False, meditation=False) :
+		self.DEBUG = debug
+
+		self.ATTENTION = attention
+		if attention :	
+			np.append(NAME, "attention=")
+			np.append(LABEL, "Attention")
+
+		self.meditation = meditation
+		if meditation :
+			np.append(NAME, "meditation=")
+			np.append(LABEL, "Meditation")
+
 		self.img1 = np.zeros([500, 500, 1])
 		self.brain = np.zeros([1, LABEL.shape[0]])
 
@@ -55,12 +53,6 @@ class Mind() :
 		self.th = thinkgear.ThinkGearProtocol(port)
 		self.think = self.th.get_packets()
 		print(self.think)		
-
-	def make_zero(self, value) :
-		out = str(value)
-		if value < 10 :
-			out = out.zfill(2)				# 桁揃え
-		return out
 
 	def brainwave(self, p) :
 		p = str(p)					# pをstrに変換
@@ -77,7 +69,7 @@ class Mind() :
 			result.append(out)
 	
 		out = np.array([result])
-		if DEBUG :
+		if self.DEBUG :
 			print(out)
 		return out
 
@@ -103,10 +95,10 @@ class Mind() :
 					continue
 				if isinstance(p, thinkgear.ThinkGearPoorSignalData):	# Poorシグナルを取り除く	
 					continue
-				if ATTENTION :
+				if self.ATTENTION :
 					if isinstance(p, thinkgear.ThinkGearAttentionData):		# Attention値を取り除く
 						continue
-				if MEDITATION :
+				if self.MEDITATION :
 					if isinstance(p, thinkgear.ThinkGearMeditationData):	# Meditation値を取り除く
 						continue
 				#if isinstance(p, thinkgear.ThinkGearEEGPowerData):		# フーリエ変換されたデータを取り除く	

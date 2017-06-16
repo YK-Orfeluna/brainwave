@@ -32,6 +32,11 @@ $python brain_graph.py
 4. ターミナルで「ls /dev/tty.*」と入力して，デバイスを確認する．  
 	* "/dev/tty.MindWaveMobile-DevA"とか出てくるはずなので，クラス"Mindwave()"の第一引数とする
 5. ターミナルやSublimeText3からコードを実行する  
+	* クラス "Mind(port, debug=True, attention=False, meditation=False)"の引数について
+		* port: 接続ポート（"2."を参考に）
+		* debug: デバッグ用のprint文を実行するかどうか（デフォルトはTrue）
+		* attention: Attention値を取得するか（デフォルトはFalse）
+		* meditation: Meditation値を取得するか（デフォルトはFalse）
 	* SublimeText3でコードを実行する場合は，Command+b
 	* ターミナルから実行する場合は，python brainwave.py
 	* escで終了して，計測した脳波をcsv形式で書き出して保存する 
