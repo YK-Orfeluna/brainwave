@@ -18,8 +18,7 @@ $python brainwave.py
 
 ## brain_graph.py
 ### Run
-$python brain_graph.py filename  
-*without ".csv"
+$python brain_graph.py
 
 ## log
 * 16/10/20: ver.1.0
@@ -31,13 +30,16 @@ $python brain_graph.py filename
 2. PCのbluetoothをONにする
 3. ThinkGearConnectorを起動する
 4. ターミナルで「ls /dev/tty.*」と入力して，デバイスを確認する．  
-	* "/dev/tty.MindWaveMobile-DevA"とか出てくるはずなので，brainwave.pyの18行目のPORTの中身がこれになっているか確認する
+	* "/dev/tty.MindWaveMobile-DevA"とか出てくるはずなので，クラス"Mindwave()"の第一引数とする
 5. ターミナルやSublimeText3からコードを実行する  
 	* SublimeText3でコードを実行する場合は，Command+b
 	* ターミナルから実行する場合は，python brainwave.py
-	* enterでフラグ切り替え（録音開始・停止のタイミングとかで使用可能）  
-	* escで終了して，計測した脳波をcsv形式で書き出して保存する  
+	* escで終了して，計測した脳波をcsv形式で書き出して保存する 
+	** 10分に1回，バックアップとしてcsvを書き出します．ただし，このバックアップファイル名は単純なナンバリング（10分ごとに1, 2, 3となっていく）なので，スクリプトを停止した後にバックアップファイルを使う必要がある場合は避難させる/名前を変更する 
 6. 接続がうまくいかない場合，以下の方法を試す  
 	* 脳波センサ本体の再起動  
 	* PCのbluetoothの再起動（OFF→ON）  
 	* Brainwave Visualizerを起動して，アプリと本体を一度接続して，うまくいったら接続解除（アプリ終了）してみる  
+7. 禁止事項
+	* スクリプト停止前に脳波センサの電源を切ること→フリーズします
+	* スクリプト稼働中にPCと脳波センサがbluetooth圏外に移動する→フリーズします

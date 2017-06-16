@@ -13,7 +13,6 @@ import pandas as pd
 import key_num as key
 
 WINDOWNAME = "MindWave"
-PORT = '/dev/tty.MindWaveMobile-DevA'	# PORTを$ls /dev/tty.*で確認しておく
 
 STR_1 = "ASIC EEG Power: EEGPowerData("
 STR_2 = ")"
@@ -24,6 +23,17 @@ LABEL = np.array(["Unix", "TimeStamp", "Delta", "Theta", "Low_Alfa", "High_Alfa"
 
 DEBUG = True
 #DEBUG = False
+
+ATTENTION = False
+MEDITATION = False
+
+if ATTENTION :
+	np.append(NAME, "attention=")
+	np.append(LABEL, "Attention")
+
+if MEDITATION :
+	np.append(NAME, "meditation=")
+	np.append(LABEL, "Meditation")
 
 def stamp() :
 	t = time.localtime()
@@ -37,14 +47,14 @@ def stamp() :
 	return out
 
 class Mind() :
-	def __init__(self) :
+	def __init__(self, port) :
 		self.img1 = np.zeros([500, 500, 1])
 		self.brain = np.zeros([1, LABEL.shape[0]])
 
-	def set(self) :
-		self.th = thinkgear.ThinkGearProtocol(PORT)
+		self.th = thinkgear.ThinkGearProtocol(port)
+		self.th = thinkgear.ThinkGearProtocol(port)
 		self.think = self.th.get_packets()
-		print(self.think)
+		print(self.think)		
 
 	def make_zero(self, value) :
 		out = str(value)
@@ -84,7 +94,6 @@ class Mind() :
 		sys.exit()
 
 	def main(self) :
-		self.set()
 		start_time = time.time()
 		csv_flag = 1
 
@@ -94,10 +103,12 @@ class Mind() :
 					continue
 				if isinstance(p, thinkgear.ThinkGearPoorSignalData):	# Poorシグナルを取り除く	
 					continue
-				if isinstance(p, thinkgear.ThinkGearAttentionData):		# Attention値を取り除く
-					continue
-				if isinstance(p, thinkgear.ThinkGearMeditationData):	# Meditation値を取り除く
-					continue
+				if ATTENTION :
+					if isinstance(p, thinkgear.ThinkGearAttentionData):		# Attention値を取り除く
+						continue
+				if MEDITATION :
+					if isinstance(p, thinkgear.ThinkGearMeditationData):	# Meditation値を取り除く
+						continue
 				#if isinstance(p, thinkgear.ThinkGearEEGPowerData):		# フーリエ変換されたデータを取り除く	
 				#	continue
 
@@ -117,5 +128,6 @@ class Mind() :
 					csv_flag += 1
 	
 if __name__ == "__main__" :
-	mind = Mind()
+	# portを$ls /dev/tty.*で確認しておく
+	mind = Mind('/dev/tty.MindWaveMobile-DevA')
 	mind.main()
