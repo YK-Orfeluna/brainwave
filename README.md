@@ -33,7 +33,7 @@ $python brain_graph.py
 	* "/dev/tty.MindWaveMobile-DevA"とか出てくるはずなので，クラス"Mindwave()"の第一引数とする
 5. ターミナルやSublimeText3からコードを実行する  
 	* クラス "Mind(port, debug=True, attention=False, meditation=False)"の引数について
-		* port: 接続ポート（"2."を参考に）
+		* port: 接続ポート（"4."を参考に）
 		* debug: デバッグ用のprint文を実行するかどうか（デフォルトはTrue）
 		* attention: Attention値を取得するか（デフォルトはFalse）
 		* meditation: Meditation値を取得するか（デフォルトはFalse）
@@ -41,6 +41,7 @@ $python brain_graph.py
 	* ターミナルから実行する場合は，python brainwave.py
 	* escで終了して，計測した脳波をcsv形式で書き出して保存する 
 		* 10分に1回，バックアップとしてcsvを書き出します．ただし，このバックアップファイル名は単純なナンバリング（10分ごとに1, 2, 3となっていく）なので，スクリプトを停止した後にバックアップファイルを使う必要がある場合は避難させる/名前を変更する 
+		* escで終了した場合，ファイル名にタイムスタンプが付くが，日付はつかないので要注意
 6. 接続がうまくいかない場合，以下の方法を試す  
 	* 脳波センサ本体の再起動  
 	* PCのbluetoothの再起動（OFF→ON）  
